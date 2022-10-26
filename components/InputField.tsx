@@ -1,3 +1,5 @@
+import {useRef} from "react";
+
 interface Props {
   todo: string;
   setTodo: React.Dispatch<React.SetStateAction<string>>;
@@ -6,16 +8,20 @@ interface Props {
 
 // const InputField = ({ todo, setTodo }: Props) => { Or
 const InputField: React.FC<Props> = ({ todo, setTodo, handleAdd }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   return (
     <div>
-      <form onSubmit={handleAdd}>
+      <form onSubmit={e=>{
+        handleAdd(e)
+        inputRef.current?.blur()
+      }}>
         <input
           type="text"
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
         />
         <br />
-        <textarea cols={20} rows={10}></textarea>
+        {/*<textarea cols={20} rows={10}></textarea>*/}
         <br />
         <button type="submit">Go</button>
       </form>
